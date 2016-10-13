@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wildflowers</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <style type="text/css">
+    body {
+        margin: 0px;
+        overflow: hidden;
+        background: black;
+    }
+    
+    canvas {
+        width: 100%;
+        height: 100%;
+    }
+    #source {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin: 15px;
+    }
+    #source a {
+        font-family: 'Source Sans Pro', sans-serif;
+        color: white;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="source">
+        <a href="https://github.com/jasfar/wildflowers" target="_blank">GitHub</a>
+    </div>
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+    varying vec3 fNormal;
+
+    void main() {
+        fNormal = normalize(normalMatrix * normal) / 2.5;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+    varying vec3 fNormal;
+
+    void main() {
+        float z = 1.0 - (gl_FragCoord.z / gl_FragCoord.w) / 220.0;
+        gl_FragColor = vec4((fNormal + 1.0) * z, 1.0);
+    }
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5.1/dat.gui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r80/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 var container, scene, camera, renderer;
-var plants, prev, stemDir, stemIndex, numStemSegments, branchFactor, endCandidates, largestEnd, smallestEnd;
+var plants, prev, stemDir, stemIndex, numStemSegments, branchFactor, stemFactor, endCandidates, largestEnd, smallestEnd;
 
 var material = new THREE.ShaderMaterial({
     vertexShader: document.getElementById('vertexShader').text,
@@ -9,7 +9,7 @@ var glowMaterial = new THREE.MeshBasicMaterial();
 var materials = [material, glowMaterial];
 
 var numPlants = 20;
-var plantRange = 200;
+var plantRange = 150;
 
 var minStemSegments = 3;
 var maxStemSegments = 18;
@@ -37,8 +37,8 @@ var endFlowerAngle = 4;
 
 var count = 0;
 var windAngle = 0;
-var camPosY = 30;
-var camFocusY = 0;
+var camPosY = 50;
+var camFocusY = 30;
 var camRangeY = 30;
 var camRangeZ = 30;
 var newCamY = camPosY;
@@ -126,6 +126,7 @@ function reset() {
     plants = [];
 
     branchFactor = convertRange(maxDepth, 0, 10, 1.7, 1.2);
+    // stemFactor = convertRange(maxStemSegments, 0, 10, 1, 1.1);
 
     endCandidates = [];
     largestEnd = smallestEnd = endStemRadius;
@@ -347,7 +348,7 @@ function Segment(angle, len, radius, isFlower, parent) {
     };
 
     this.update = function() {
-        this.blastForce += Math.sin(this.pos.x + windAngle) * (Math.sin(windAngle * 0.08) * 0.004);
+        this.blastForce += Math.sin(this.pos.x + windAngle) * (Math.sin(windAngle * 0.08) * 0.006);
 
         if (this.parent != null) {
             this.pos.x = this.parent.pos.x;
